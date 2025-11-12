@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LCSC → Labelmaker</title>
+<style>
+:root { --tape-mm: 12; --label-l-mm: 40; font-family: system-ui, Segoe UI, Roboto, Arial; }
+body { margin: 0; background:#0b0f14; color:#e7eef7; }
+header { padding: 16px 20px; border-bottom: 1px solid #1d2733; position: sticky; top:0; background:#0b0f14; z-index:2; }
+h1 { margin:0; font-size: 18px; }
+main { display:grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 16px; }
+.card { background:#0f1621; border:1px solid #1a2533; border-radius:12px; padding:12px; }
+label { display:block; font-size:12px; color:#9fb4cc; margin-bottom:6px; }
+textarea { width:100%; height:120px; resize:vertical; }
+select, input[type="number"], textarea, input[type="text"] { background:#0b121b; color:#e7eef7; border:1px solid #243146; border-radius:8px; padding:8px; width:100%; }
+button { background:#1f6feb; color:white; border:0; padding:10px 12px; border-radius:10px; font-weight:600; cursor:pointer; }
+button.secondary { background:#253143; }
+.row { display:flex; gap:8px; align-items:center; }
+.row > * { flex:1; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:12px; }
+.preview { background:#041221; padding:10px; border-radius:10px; overflow:auto; }
+.label-wrap { background:white; color:black; display:inline-block; margin:8px; padding:6px; border-radius:6px; }
+.muted { color:#9fb4cc; font-size:12px; }
+.field { margin-bottom:10px; }
+.table { width:100%; border-collapse: collapse; font-size:12px; }
+.table th, .table td { border-bottom:1px solid #223045; padding:6px; text-align:left; }
+@media print {
+header, .controls, .help, .list { display:none; }
+body { background:white; }
+.preview { background:white; padding:0; }
+.label-wrap { margin:0; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<header>
+<h1>LCSC → Labelmaker</h1>
+</header>
+<main>
+<section class="card controls">
+<div class="field">
+<label>Paste LCSC Part Numbers (one per line)</label>
+<textarea id="lines" placeholder="C12345\nC78910\n…"></textarea>
+</div>
+<div class="row">
+<div class="field">
+<label>Tape width</label>
+<select id="width">
+<option value="6">6 mm</option>
+<option value="9">9 mm</option>
+<option value="12" selected>12 mm</option>
+<option value="18">18 mm</option>
+<option value="24">24 mm</option>
+</select>
+</div>
+<div class="field">
+<label>Label length</label>
+<input id="length" type="number" min="20" max="80" step="1" value="40" />
+</div>
+</div>
+<div class="row">
+<button id="fetch">Fetch from LCSC</button>
+<button class="secondary" id="print">Print</button>
+</div>
+<p class="muted help">Printing: works via your browser's print dialog, or silently if <strong>QZ Tray</strong> is installed. Labels are sized to the tape width and fixed length.</p>
+</section>
+
+
+<section class="card preview">
+<div id="labels"></div>
+</section>
+</main>
+
+
+<section class="card" style="margin: 0 16px 16px;">
+<h3 style="margin-top:0">Batch list (editable values)</h3>
+<table class="table" id="table"><thead>
+<tr><th>LCSC #</th><th>Title</th><th>Value</th><th>Package</th><th>Category</th></tr>
+</thead><tbody></tbody></table>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+</html>
